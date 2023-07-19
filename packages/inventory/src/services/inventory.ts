@@ -1,9 +1,11 @@
 import { InternalModuleDeclaration } from "@medusajs/modules-sdk"
 import {
   BulkUpdateInventoryLevelInput,
+  Context,
   CreateInventoryItemInput,
   CreateInventoryLevelInput,
   CreateReservationItemInput,
+  DAL,
   FilterableInventoryItemProps,
   FilterableInventoryLevelProps,
   FilterableReservationItemProps,
@@ -19,25 +21,26 @@ import {
 } from "@medusajs/types"
 import {
   InjectEntityManager,
+  InjectTransactionManager,
   MedusaContext,
   MedusaError,
 } from "@medusajs/utils"
-import { EntityManager } from "typeorm"
 import InventoryItemService from "./inventory-item"
 import InventoryLevelService from "./inventory-level"
 import ReservationItemService from "./reservation-item"
-import { SqlEntityManager } from "@mikro-orm/postgresql"
-import { InventoryItem } from "../models"
+import { shouldForceTransaction } from "../utils"
 
 type InjectedDependencies = {
   manager: any
   inventoryItemService: InventoryItemService
   inventoryLevelService: InventoryLevelService
   reservationItemService: ReservationItemService
+  baseRepository: DAL.RepositoryService
 }
 
 export default class InventoryService implements IInventoryService {
   protected readonly manager_: any
+  protected baseRepository_: DAL.RepositoryService
 
   protected readonly inventoryItemService_: InventoryItemService
   protected readonly reservationItemService_: ReservationItemService
@@ -49,6 +52,7 @@ export default class InventoryService implements IInventoryService {
       inventoryItemService,
       inventoryLevelService,
       reservationItemService,
+      baseRepository,
     }: InjectedDependencies,
     options?: unknown,
     protected readonly moduleDeclaration?: InternalModuleDeclaration
@@ -57,6 +61,7 @@ export default class InventoryService implements IInventoryService {
     this.inventoryItemService_ = inventoryItemService
     this.inventoryLevelService_ = inventoryLevelService
     this.reservationItemService_ = reservationItemService
+    this.baseRepository_ = baseRepository
   }
 
   /**
@@ -260,15 +265,12 @@ export default class InventoryService implements IInventoryService {
     return result
   }
 
-  @InjectEntityManager(
-    (target) =>
-      target.moduleDeclaration?.resources === MODULE_RESOURCE_TYPE.ISOLATED
-  )
+  @InjectTransactionManager(shouldForceTransaction, "baseRepository_")
   async createInventoryItems(
     input: CreateInventoryItemInput[],
-    @MedusaContext() context: SharedContext = {}
+    @MedusaContext() sharedContext: Context = {}
   ): Promise<InventoryItemDTO[]> {
-    return await this.inventoryItemService_.create(input, context)
+    return await this.inventoryItemService_.create(input, sharedContext)
   }
 
   /**
@@ -277,15 +279,12 @@ export default class InventoryService implements IInventoryService {
    * @param context
    * @return The created inventory item
    */
-  @InjectEntityManager(
-    (target) =>
-      target.moduleDeclaration?.resources === MODULE_RESOURCE_TYPE.ISOLATED
-  )
+  @InjectTransactionManager(shouldForceTransaction, "baseRepository_")
   async createInventoryItem(
     input: CreateInventoryItemInput,
-    @MedusaContext() context: SharedContext = {}
+    @MedusaContext() sharedContext: Context = {}
   ): Promise<InventoryItemDTO> {
-    const [result] = await this.createInventoryItems([input], context)
+    const [result] = await this.createInventoryItems([input], sharedContext)
 
     return result
   }
@@ -327,19 +326,16 @@ export default class InventoryService implements IInventoryService {
    * @param context
    * @return The updated inventory item
    */
-  @InjectEntityManager(
-    (target) =>
-      target.moduleDeclaration?.resources === MODULE_RESOURCE_TYPE.ISOLATED
-  )
+  @InjectTransactionManager(shouldForceTransaction, "baseRepository_")
   async updateInventoryItem(
     inventoryItemId: string,
     input: Partial<CreateInventoryItemInput>,
-    @MedusaContext() context: SharedContext = {}
+    @MedusaContext() sharedContext: Context = {}
   ): Promise<InventoryItemDTO> {
     const inventoryItem = await this.inventoryItemService_.update(
       inventoryItemId,
       input,
-      context
+      sharedContext
     )
     return { ...inventoryItem }
   }
@@ -362,7 +358,8 @@ export default class InventoryService implements IInventoryService {
       context
     )
 
-    return await this.inventoryItemService_.delete(inventoryItemId, context)
+    // TODO: context
+    return await this.inventoryItemService_.delete(inventoryItemId)
   }
 
   @InjectEntityManager(
@@ -599,13 +596,11 @@ export default class InventoryService implements IInventoryService {
     context: SharedContext = {}
   ): Promise<number> {
     // Throws if item does not exist
-    await this.inventoryItemService_.retrieve(
-      inventoryItemId,
-      {
-        select: ["id"],
-      },
-      context
-    )
+    // TODO: context
+
+    await this.inventoryItemService_.retrieve(inventoryItemId, {
+      select: ["id"],
+    })
 
     if (locationIds.length === 0) {
       return 0
@@ -635,13 +630,10 @@ export default class InventoryService implements IInventoryService {
     context: SharedContext = {}
   ): Promise<number> {
     // Throws if item does not exist
-    await this.inventoryItemService_.retrieve(
-      inventoryItemId,
-      {
-        select: ["id"],
-      },
-      context
-    )
+    // TODO: context
+    await this.inventoryItemService_.retrieve(inventoryItemId, {
+      select: ["id"],
+    })
 
     if (locationIds.length === 0) {
       return 0
@@ -671,13 +663,10 @@ export default class InventoryService implements IInventoryService {
     context: SharedContext = {}
   ): Promise<number> {
     // Throws if item does not exist
-    await this.inventoryItemService_.retrieve(
-      inventoryItemId,
-      {
-        select: ["id"],
-      },
-      context
-    )
+    // TODO: context
+    await this.inventoryItemService_.retrieve(inventoryItemId, {
+      select: ["id"],
+    })
 
     if (locationIds.length === 0) {
       return 0
