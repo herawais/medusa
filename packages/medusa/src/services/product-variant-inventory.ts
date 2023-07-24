@@ -880,10 +880,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
             ),
           ],
         },
-        {},
-        {
-          transactionManager: this.activeManager_,
-        }
+        {}
       )
 
       locationLevels.reduce((acc, curr) => {
