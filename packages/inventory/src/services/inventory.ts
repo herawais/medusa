@@ -13,14 +13,11 @@ import {
   IInventoryService,
   InventoryItemDTO,
   InventoryLevelDTO,
-  MODULE_RESOURCE_TYPE,
   ReservationItemDTO,
-  SharedContext,
   UpdateInventoryLevelInput,
   UpdateReservationItemInput,
 } from "@medusajs/types"
 import {
-  InjectEntityManager,
   InjectTransactionManager,
   MedusaContext,
   MedusaError,

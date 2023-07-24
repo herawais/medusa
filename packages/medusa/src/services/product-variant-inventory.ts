@@ -327,9 +327,6 @@ class ProductVariantInventoryService extends TransactionBaseService {
       },
       {
         select: ["id"],
-      },
-      {
-        transactionManager: this.activeManager_,
       }
     )
 
@@ -483,8 +480,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
             location_id: locationIds,
             inventory_item_id: variantInventory[0].inventory_item_id,
           },
-          undefined,
-          moduleContext
+          undefined
         )
 
       if (count === 0) {
@@ -508,8 +504,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
             inventory_item_id: inventoryPart.inventory_item_id,
             quantity: itemQuantity,
           }
-        }),
-        moduleContext
+        })
       )
 
     return reservationItems.flat()
@@ -563,8 +558,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
         },
         {
           order: { created_at: "DESC" },
-        },
-        context
+        }
       )
 
     reservations.sort((a, _) => {
@@ -586,10 +580,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
         (r) => r.quantity === deltaUpdate && r.location_id === locationId
       )
       if (exactReservation) {
-        await this.inventoryService_.deleteReservationItem(
-          exactReservation.id,
-          context
-        )
+        await this.inventoryService_.deleteReservationItem(exactReservation.id)
         return
       }
 
@@ -609,8 +600,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
 
       if (reservationsToDelete.length) {
         await this.inventoryService_.deleteReservationItem(
-          reservationsToDelete.map((r) => r.id),
-          context
+          reservationsToDelete.map((r) => r.id)
         )
       }
 
@@ -619,8 +609,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
           reservationToUpdate.id,
           {
             quantity: reservationToUpdate.quantity - remainingQuantity,
-          },
-          context
+          }
         )
       }
     }
@@ -659,8 +648,7 @@ class ProductVariantInventoryService extends TransactionBaseService {
             inventory_item_id: pvInventoryItems.map((i) => i.inventory_item_id),
             location_id: locationId,
           },
-          undefined,
-          context
+          undefined
         )
 
       if (!inventoryLevelCount) {
