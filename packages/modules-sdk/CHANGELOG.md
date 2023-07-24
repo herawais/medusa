@@ -1,5 +1,11 @@
 # @medusajs/modules-sdk
 
+## 1.9.0
+
+### Minor Changes
+
+- [#4596](https://github.com/medusajs/medusa/pull/4596) [`f174bb6fa`](https://github.com/medusajs/medusa/commit/f174bb6fa1b105b39065478a67b6be0b968f707a) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - Fix getting loaded modules
+
 ## 1.8.8
 
 ### Patch Changes

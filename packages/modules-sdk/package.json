@@ -1,6 +1,6 @@
 {
   "name": "@medusajs/modules-sdk",
-  "version": "1.8.8",
+  "version": "1.9.0",
   "description": "SDK for medusa modules",
   "main": "dist/index.js",
   "repository": {

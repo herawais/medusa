@@ -1,5 +1,14 @@
 # Change Log
 
+## 1.12.4
+
+### Patch Changes
+
+- [#4578](https://github.com/medusajs/medusa/pull/4578) [`c9989529e`](https://github.com/medusajs/medusa/commit/c9989529ed8c347fefe10d57b3d23fa60aa35fe7) Thanks [@pKorsholm](https://github.com/pKorsholm)! - fix(medusa): update how price lists are filtered in price selection strategy
+
+- Updated dependencies [[`f174bb6fa`](https://github.com/medusajs/medusa/commit/f174bb6fa1b105b39065478a67b6be0b968f707a)]:
+  - @medusajs/modules-sdk@1.9.0
+
 ## 1.12.3
 
 ### Patch Changes
@@ -13,7 +22,7 @@
 - [#4472](https://github.com/medusajs/medusa/pull/4472) [`43427b889`](https://github.com/medusajs/medusa/commit/43427b8893baedd7abe7b38cf5360aa2d245293d) Thanks [@carlos-r-l-rodrigues](https://github.com/carlos-r-l-rodrigues)! - Transaction Orchestrator Flow Builder
 
 - [#4230](https://github.com/medusajs/medusa/pull/4230) [`2f283996f`](https://github.com/medusajs/medusa/commit/2f283996f80313b074b96c690bcd953c67665c1b) Thanks [@erikengervall](https://github.com/erikengervall)! - feat(medusa): Add `metadata` to `StorePostCartsCartLineItemsItemReq`
- 
+
 ## 1.12.2
 
 ### Patch Changes

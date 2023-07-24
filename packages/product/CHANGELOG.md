@@ -1,5 +1,14 @@
 # @medusajs/product
 
+## 0.1.4
+
+### Patch Changes
+
+- [#4590](https://github.com/medusajs/medusa/pull/4590) [`a0a041e5c`](https://github.com/medusajs/medusa/commit/a0a041e5c9b8aa5a418f500ba17fca2bea53f728) Thanks [@riqwan](https://github.com/riqwan)! - fix(medusa): correct the type of initializer for modules
+
+- Updated dependencies [[`f174bb6fa`](https://github.com/medusajs/medusa/commit/f174bb6fa1b105b39065478a67b6be0b968f707a)]:
+  - @medusajs/modules-sdk@1.9.0
+
 ## 0.1.3
 
 ### Patch Changes
